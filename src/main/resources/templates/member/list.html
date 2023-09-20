@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form action="/member/list" method="get">
+        <fieldset>
+            <legend>검색하세요!</legend>
+            <select name="cate">
+                <option value="name">이름</option>
+                <option value="email">이메일</option>
+                <option value="id">아이디</option>
+            </select>
+            <input type="text" name="keyword">
+            <button>검색</button>
+        </fieldset>
+        <br>
+    </form>
+
+    <br>
+    <br>
+    <table border="1" cellspacing="0" width="800px">
+        <tr>
+            <th>번호</th>
+            <th>아이디</th>
+            <th>비번</th>
+            <th>이름</th>
+            <th>이메일</th>
+        </tr>
+        <tr th:each=" member : ${list}">
+            <td th:text="${member.memberNumber}"></td>
+            <td th:text="${member.memberId}"></td>
+            <td th:text="${member.memberPassword}"></td>
+            <td th:text="${member.memberName}"></td>
+            <td th:text="${member.memberEmail}"></td>
+        </tr>
+    </table>
+
+</body>
+</html>

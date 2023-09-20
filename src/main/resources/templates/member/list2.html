@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+        <fieldset>
+            <legend>검색하세요!</legend>
+            <select name="cate" class="cate">
+                <option value="name">이름</option>
+                <option value="email">이메일</option>
+                <option value="id">아이디</option>
+            </select>
+            <input type="text" name="keyword" class="keyword">
+            <button class="btn" type="button">검색</button>
+        </fieldset>
+        <br>
+
+    <br>
+    <br>
+    <table border="1" cellspacing="0" width="800px">
+        <tr>
+            <th>번호</th>
+            <th>아이디</th>
+            <th>비번</th>
+            <th>이름</th>
+            <th>이메일</th>
+        </tr>
+        <tbody class="content">
+
+        </tbody>
+
+    </table>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script>
+
+    let keyword = $('.keyword').val();
+    let cate = $('.cate').val();
+
+    console.log(keyword);
+    console.log(cate);
+
+    myModule(cate,keyword, showResult);
+
+
+    $('.btn').on('click', function (){
+        let keyword = $('.keyword').val();
+        let cate = $('.cate').val();
+
+        console.log(keyword);
+        console.log(cate);
+
+        myModule(cate,keyword, showResult);
+    });
+
+    function showResult(result){
+        let text = '';
+        result.forEach( r => {
+            text += `
+                        <tr>
+                            <td>${r.memberNumber}</td>
+                            <td>${r.memberId}</td>
+                            <td>${r.memberPassword}</td>
+                            <td>${r.memberName}</td>
+                            <td>${r.memberEmail}</td>
+                        </tr>
+                    `;
+        });
+
+        $('.content').html(text);
+    }
+
+
+    function myModule(cate, keyword, callback){
+        $.ajax({
+            url : `/members/${cate}/${keyword}`,
+            type : 'get',
+            dataType : 'json',
+            // data : JSON.stringify({cate : cate, keyword : keyword}),
+            // contentType : 'application/json; charset=utf-8',
+            success : function (result){
+                console.log(result);
+                if(callback){
+                    callback(result);
+                }
+            },
+            error : function (a,b,c){
+                console.log(c);
+            }
+        });
+    }
+
+
+</script>
+</body>
+</html>
